@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User">
+    <insert id="join" parameterType="userInfo">
+        INSERT INTO UserInfo (userId
+                            , userPw
+                            , userName
+                            , userGender
+                            , userBirth)
+        VALUES (#{userId}
+              , #{userPw}
+              , #{userName}
+              , #{userGender}
+              , #{userBirth})
+    </insert>
+
+    <insert id="joinDetail" parameterType="userDetailInfo">
+        INSERT INTO UserDetailInfo (userId
+                                  , prop
+                                  , value)
+             VALUES (#{userId}
+                   , #{prop}
+                   , #{value})
+    </insert>
+
+    <select id="login" parameterType="userInfo" resultType="userInfo">
+        SELECT *
+          FROM UserInfo
+         WHERE userId = #{userId}
+           AND userPw = #{userPw}
+    </select>
+
+    <select id="findAll" resultType="userInfo">
+        SELECT userId
+             , userPw
+             , userName
+             , userGender
+             , userBirth
+          FROM UserInfo
+         ORDER BY userId
+    </select>
+
+    <select id="findById" parameterType="String" resultType="userInfo">
+        SELECT userId
+             , userPw
+             , userName
+             , userGender
+             , userBirth
+          FROM UserInfo
+         WHERE userId=#{userId}
+    </select>
+
+    <select id="findDetailAllById" parameterType="String" resultType="userDetailInfo">
+        SELECT prop
+             , value
+        FROM UserDetailInfo
+        WHERE userId=#{userId}
+    </select>
+
+    <select id="findBookAllById" parameterType="String" resultType="userBook">
+        SELECT bookNum
+             , value
+        FROM UserBook
+        WHERE userId=#{userId}
+    </select>
+
+    <update id="update">
+        UPDATE UserInfo
+           SET userId=#{userId}
+             , userPw=#{userPw}
+             , userName=#{userName}
+             , userGender=#{userGender}
+             , userBirth=#{userBirth}
+         WHERE userId=#{userId}
+    </update>
+    <update id="updateDetail">
+        UPDATE UserDetailInfo
+           SET userId=#{userId}
+             , value=#{value}
+        WHERE userId=#{userId} AND prop=#{prop}
+    </update>
+    <delete id="delete" parameterType="String">
+        DELETE FROM UserInfo
+        WHERE userId=#{userId}
+    </delete>
+    <insert id="rent" parameterType="userBook">
+        <selectKey keyProperty="bookNum" resultType="int" order="BEFORE">
+            SELECT MAX(bookNum) + 1
+            FROM UserBook
+            WHERE userId = #{userId}
+        </selectKey>
+        INSERT INTO UserBook (userId
+                            , bookNum
+                            , value)
+             VALUES (#{userId}
+                   , #{bookNum}
+                   , #{value})
+    </insert>
+</mapper>
