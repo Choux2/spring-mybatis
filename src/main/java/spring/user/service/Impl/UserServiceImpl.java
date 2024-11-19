@@ -141,6 +141,16 @@ public class UserServiceImpl implements UserService {
         for (UserDetailInfoDTO detailInfoDTO : detailInfoDTOS) {
             userRepository.updateDetail(detailInfoDTO);
         }
+
+        List<UserBookDTO> bookDTOS = new ArrayList<>();
+        UserBookDTO book = new UserBookDTO();
+        book.setUserId(user.getUserId());
+//        book.setBookNum(user.getUserBookNum());
+        book.setValue(user.getUserBook());
+
+        for (UserBookDTO bookDTO : bookDTOS) {
+            userRepository.updateBook(bookDTO);
+        }
     }
 
     @Override
@@ -151,6 +161,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void rent(UserBookDTO userBookDTO) {
         userRepository.rent(userBookDTO);
+    }
+
+    @Override
+    public void deleteBook(String userId, int bookNum) {
+        UserBookDTO userBookDTO = new UserBookDTO();
+        userBookDTO.setUserId(userId);
+        userBookDTO.setBookNum(bookNum);
+        userRepository.deleteBook(userBookDTO);
     }
 
 }

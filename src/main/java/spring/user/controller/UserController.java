@@ -91,7 +91,7 @@ public class UserController {
         userService.update(userVO);
 //        UserInfoDTO dto = userService.findById(userInfoDTO.getUserId());
 //        model.addAttribute("userInfo", dto);
-        return "detail";
+        return "redirect:/detail/" + userId;
     }
 
     //회원정보 삭제
@@ -109,6 +109,19 @@ public class UserController {
     @PostMapping("/rent")
     public String rent(@ModelAttribute UserBookDTO userBookDTO) {
         userService.rent(userBookDTO);
-        return "/list";
+        return "redirect:/list";
+    }
+
+//    @PostMapping("/deleteBook")
+//    public String deleteBook(@RequestParam("userId") String userId,
+//                             @RequestParam("bookNum") Integer bookNum) {
+//        userService.deleteBook(userId, bookNum);
+//        return "redirect:/return/" + userId;
+//    }
+
+    @PostMapping("/deleteBook")
+    public String deleteBook(@RequestParam("userId") String userId) {
+        userService.deleteBook(userId, 1);
+        return "redirect:/return/" + userId;
     }
 }

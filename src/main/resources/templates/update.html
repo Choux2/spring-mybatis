@@ -55,6 +55,15 @@
                 연락처: <input type="text" name="userPhone" th:value="${userInfo.userPhone}"><br>
                 주소: <input type="text" name="userAddr" th:value="${userInfo.userAddr}"><br>
                 이메일: <input type="text" name="userEmail" th:value="${userInfo.userEmail}"><br>
+                책 대여 내역: <input type="text" name="bookList" th:value="${userInfo.bookList}"><br>
+                <div th:each="book : ${userInfo.bookList}">
+                    <span th:text="${book}"></span>
+                    <form th:action="@{/deleteBook}" method="post" style="display: inline;">
+                        <input type="hidden" name="userId" th:value="${userInfo.userId}">
+                        <input type="hidden" name="bookNum" th:value="${bookNum}">
+                        <button type="submit">삭제</button>
+                    </form>
+                </div>
                 <input type="submit" value="수정">
             </form>
         </div>
@@ -117,6 +126,12 @@
                 updateForm.submit();
             } else {
                 alert("비밀번호가 틀립니다!!");
+            }
+        }
+
+        const deleteReq = () => {
+            if (confirm("정말 삭제하시겠습니까?")) { // 삭제 확인 메시지
+                location.href = `/delete/${[[${userInfo.userId}]]}`; // 삭제 요청
             }
         }
     </script>

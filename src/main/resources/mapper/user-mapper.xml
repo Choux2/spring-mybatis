@@ -81,6 +81,12 @@
              , value=#{value}
         WHERE userId=#{userId} AND prop=#{prop}
     </update>
+    <update id="updateBook">
+        UPDATE UserBook
+           SET userId=#{userId}
+             , value=#{value}
+         WHERE userId=#{userId} AND bookNum=#{bookNum}
+    </update>
     <delete id="delete" parameterType="String">
         DELETE FROM UserInfo
         WHERE userId=#{userId}
@@ -98,4 +104,8 @@
                    , #{bookNum}
                    , #{value})
     </insert>
+    <delete id="deleteBook">
+        DELETE FROM UserBook
+        WHERE userId = #{userId} AND bookNum = #{bookNum}
+    </delete>
 </mapper>
