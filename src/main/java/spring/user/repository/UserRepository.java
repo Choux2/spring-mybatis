@@ -61,7 +61,7 @@ public class UserRepository {
         sql.insert("User.rent", userBookDTO);
     }
 
-    public void deleteBook(UserBookDTO userBookDTO) {
-        sql.delete("User.deleteBook", userBookDTO);
-    }
+//    public void deleteBook(UserBookDTO userBookDTO) {
+//        sql.delete("User.deleteBook", userBookDTO);
+//    }
 }

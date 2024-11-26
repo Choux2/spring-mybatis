@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.user.dto.UserBookDTO;
 import spring.user.dto.UserInfoDTO;
+import spring.user.vo.BookVO;
 import spring.user.vo.UserVO;
 import spring.user.service.UserService;
 
@@ -115,13 +116,16 @@ public class UserController {
 //    @PostMapping("/deleteBook")
 //    public String deleteBook(@RequestParam("userId") String userId,
 //                             @RequestParam("bookNum") Integer bookNum) {
-//        userService.deleteBook(userId, bookNum);
-//        return "redirect:/return/" + userId;
+//        BookVO book = new BookVO();
+//        book.setUserId(userId);
+//        book.setBookNum(bookNum);
+//        userService.deleteBook(book);
+//        return "redirect:/detail/" + userId;
 //    }
 
-    @PostMapping("/deleteBook")
-    public String deleteBook(@RequestParam("userId") String userId) {
-        userService.deleteBook(userId, 1);
-        return "redirect:/return/" + userId;
-    }
+//    @PostMapping("/deleteBook")
+//    public String deleteBook(@RequestParam("userId") String userId) {
+//        userService.deleteBook(userId, 1);
+//        return "redirect:/detail/" + userId;
+//    }
 }

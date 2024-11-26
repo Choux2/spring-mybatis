@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import spring.user.dto.UserBookDTO;
 import spring.user.dto.UserDetailInfoDTO;
 import spring.user.dto.UserInfoDTO;
+import spring.user.vo.BookVO;
 import spring.user.vo.UserVO;
 import spring.user.repository.UserRepository;
 import spring.user.service.UserService;
@@ -98,12 +99,15 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        List<String> bookList = new ArrayList<>();
+        List<BookVO> bookList = new ArrayList<>();
         for (UserBookDTO book : books) {
-            bookList.add(book.getValue());
+            BookVO bookVO = new BookVO();
+            bookVO.setUserId(book.getUserId());
+            bookVO.setBookNum(book.getBookNum());
+            bookVO.setValue(book.getValue());
+            bookList.add(bookVO);
         }
         user.setBookList(bookList);
-
 
         return user;
     }
@@ -143,14 +147,18 @@ public class UserServiceImpl implements UserService {
         }
 
         List<UserBookDTO> bookDTOS = new ArrayList<>();
-        UserBookDTO book = new UserBookDTO();
-        book.setUserId(user.getUserId());
-//        book.setBookNum(user.getUserBookNum());
-        book.setValue(user.getUserBook());
-
-        for (UserBookDTO bookDTO : bookDTOS) {
+        for (BookVO bookVO : user.getBookList()) {
+            UserBookDTO bookDTO = new UserBookDTO();
+            bookDTO.setUserId(user.getUserId());
+            bookDTO.setBookNum(bookVO.getBookNum());
+            bookDTO.setValue(bookVO.getValue());
+            bookDTOS.add(bookDTO);
             userRepository.updateBook(bookDTO);
         }
+
+//        for (UserBookDTO bookDTO : bookDTOS) {
+//            userRepository.updateBook(bookDTO);
+//        }
     }
 
     @Override
@@ -163,12 +171,19 @@ public class UserServiceImpl implements UserService {
         userRepository.rent(userBookDTO);
     }
 
-    @Override
-    public void deleteBook(String userId, int bookNum) {
-        UserBookDTO userBookDTO = new UserBookDTO();
-        userBookDTO.setUserId(userId);
-        userBookDTO.setBookNum(bookNum);
-        userRepository.deleteBook(userBookDTO);
-    }
+//    @Override
+//    public void deleteBook(BookVO book) {
+//        UserBookDTO userBookDTO = new UserBookDTO();
+//        userBookDTO.setUserId(book.getUserId());
+//        userBookDTO.setBookNum(book.getBookNum());
+//        userRepository.deleteBook(userBookDTO);
+//    }
 
+//    @Override
+//    public void deleteBook(String userId, int bookNum) {
+//        UserBookDTO userBookDTO = new UserBookDTO();
+//        userBookDTO.setUserId(userId);
+//        userBookDTO.setBookNum(bookNum);
+//        userRepository.deleteBook(userBookDTO);
+//    }
 }

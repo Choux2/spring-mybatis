@@ -3,6 +3,7 @@ package spring.user.service;
 import spring.user.dto.UserBookDTO;
 import spring.user.dto.UserDetailInfoDTO;
 import spring.user.dto.UserInfoDTO;
+import spring.user.vo.BookVO;
 import spring.user.vo.UserVO;
 
 import java.util.List;
@@ -22,6 +23,5 @@ public interface UserService {
 
     void rent(UserBookDTO userBookDTO);
 
-    void deleteBook(String userId, int bookNum);
-
+//    void deleteBook(BookVO book);
 }

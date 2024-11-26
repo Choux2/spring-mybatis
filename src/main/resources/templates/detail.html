@@ -85,7 +85,7 @@
                 <tr>
                     <th>책 대여 내역</th>
                     <li>
-                        <td><ol th:each="bookList: ${userInfo.bookList}" th:text="${bookList}"></ol></td>
+                        <td><ol th:each="bookList: ${userInfo.bookList}" th:text="${bookList.value}"></ol></td>
                     </li>
                 </tr>
             </table>

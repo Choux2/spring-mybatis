@@ -2,7 +2,6 @@ package spring.user.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import spring.user.dto.UserDetailInfoDTO;
 
 import java.util.List;
 
@@ -18,5 +17,5 @@ public class UserVO {
     String userAddr;
     String userEmail;
     String userBook;
-    List<String> bookList;
+    List<BookVO> bookList;
 }
