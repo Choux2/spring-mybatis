@@ -47,7 +47,7 @@
                 <h1>글 수정 페이지</h1>
             </header>
             <form th:action="@{|/update/${userInfo.userId}|}" method="post" name="updateForm">
-            아이디: <input type="text" name="userId" th:value="${userInfo.userId}" readonly><br>
+                아이디: <input type="text" name="userId" th:value="${userInfo.userId}" readonly><br>
                 비밀번호: <input type="password" name="userPw" th:value="${userInfo.userPw}"><br>
                 이름: <input type="text" name="userName" th:value="${userInfo.userName}"><br>
                 성별: <input type="text" name="userGender" th:value="${userInfo.userGender}"><br>
@@ -55,22 +55,47 @@
                 연락처: <input type="text" name="userPhone" th:value="${userInfo.userPhone}"><br>
                 주소: <input type="text" name="userAddr" th:value="${userInfo.userAddr}"><br>
                 이메일: <input type="text" name="userEmail" th:value="${userInfo.userEmail}"><br>
-                책 대여 내역:
-<!--                <td><label>-->
-<!--                    <input type="text" name="bookList" th:each="bookList: ${userInfo.bookList}" th:value="${bookList.value}">-->
-<!--                </label></td>-->
 
+                <table>
+                    <thead>
+                    <tr>
+                        <th>책 이름</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book, iterStat : ${userInfo.bookList}" name="bookList">
+                        <td th:text="${iterStat.index}"></td>
+                        <td><input type="text" th:name="|bookList[${iterStat.index}]bookList.userId|" th:value="${book.userId}"></td>
+                        <td><input type="text" th:name="|bookList[${iterStat.index}]bookList.bookNum|" th:value="${book.bookNum}"></td>
+                        <td><input type="text" th:name="|bookList[${iterStat.index}]bookList.value|" th:value="${book.value}"></td>
+<!--                        <td>-->
+<!--                            <a th:href="@{|/updateBook/${userInfo.userId}/${book.bookNum}|}">수정</a>-->
+<!--                            <a th:href="@{|/deleteBook/${userInfo.userId}/${book.bookNum}|}">삭제</a>-->
+<!--&lt;!&ndash;                            <button type="button" onclick="location.href='/deleteBook/[[${userInfo.userId}]]/[[${book.bookNum}]]'">&ndash;&gt;-->
+<!--&lt;!&ndash;                                삭제&ndash;&gt;-->
+<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button type="submit" name="bookList[${book.bookNum}].updateBook" value="updateBook">수정</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </td>&ndash;&gt;-->
+<!--                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
                 <input type="submit" value="수정">
             </form>
-            <div th:each="book : ${userInfo.bookList}">
-                <span th:text="${book.value}"></span>
-                <form th:action="@{/deleteBook}" method="post" >
-                    <input type="hidden" name="userId" th:value="${userInfo.userId}">
-                    <input type="hidden" name="bookNum" th:value="${book.bookNum}">
-                    <button type="submit">삭제</button>
-                </form>
-            </div>
-        </div>
+
+
+
+<!--            -->
+<!--            <div th:each="book : ${userInfo.bookList}">-->
+<!--                <span th:text="${book.value}"></span>-->
+<!--                <form th:action="@{/deleteBook}" method="post" >-->
+<!--                    <input type="hidden" name="userId" th:value="${userInfo.userId}">-->
+<!--                    <input type="hidden" name="bookNum" th:value="${book.bookNum}">-->
+<!--                    <button type="submit">삭제</button>-->
+<!--                </form>-->
+<!--            </div>-->
+
     </div>
 
         <!-- Footer -->
@@ -122,20 +147,11 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <script th:inline="javascript">
-        const user_update = () => {
-            const userPw = document.getElementById("user-pw").value;
-            const passDB = [[${userInfo.userPw}]];
-            if (userPw == passDB) {
-                updateForm.submit();
-            } else {
-                alert("비밀번호가 틀립니다!!");
-            }
-        }
 
-        const deleteReq = () => {
-            if (confirm("정말 삭제하시겠습니까?")) { // 삭제 확인 메시지
-                location.href = `/delete/${[[${userInfo.userId}]]}`; // 삭제 요청
+    <script th:inline="javascript">
+        function deleteBook(userId, bookNum) {
+            if (confirm("삭제하시겠습니까?")) {
+                location.href = `/deleteBook/${userId}/${bookNum}`;
             }
         }
     </script>

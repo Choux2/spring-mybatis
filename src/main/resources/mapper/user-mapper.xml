@@ -60,7 +60,8 @@
     </select>
 
     <select id="findBookAllById" parameterType="String" resultType="userBook">
-        SELECT bookNum
+        SELECT userId
+             , bookNum
              , value
         FROM UserBook
         WHERE userId=#{userId}

@@ -95,6 +95,14 @@ public class UserController {
         return "redirect:/detail/" + userId;
     }
 
+//    @PostMapping("/updateBook/{userId}")
+//    public String updateBook(@PathVariable("userId") String userId, @ModelAttribute UserVO userVO) {
+//        for(BookVO bookVO : userVO.getBookList()) {
+//            userService.updateBook(userId, bookVO);
+//        }
+//        return "redirect:/update/" + userId;
+//    }
+
     //회원정보 삭제
     @GetMapping("/delete/{userId}")
     public String delete(@PathVariable("userId") String userId) {
@@ -113,15 +121,15 @@ public class UserController {
         return "redirect:/list";
     }
 
-//    @PostMapping("/deleteBook")
-//    public String deleteBook(@RequestParam("userId") String userId,
-//                             @RequestParam("bookNum") Integer bookNum) {
-//        BookVO book = new BookVO();
-//        book.setUserId(userId);
-//        book.setBookNum(bookNum);
-//        userService.deleteBook(book);
-//        return "redirect:/detail/" + userId;
-//    }
+    @GetMapping("/deleteBook/{userId}/{bookNum}")
+    public String deleteBook(@PathVariable("userId") String userId,
+                             @PathVariable("bookNum") Integer bookNum) {
+        BookVO book = new BookVO();
+        book.setUserId(userId);
+        book.setBookNum(bookNum);
+        userService.deleteBook(book);
+        return "redirect:/update/" + userId;
+    }
 
 //    @PostMapping("/deleteBook")
 //    public String deleteBook(@RequestParam("userId") String userId) {

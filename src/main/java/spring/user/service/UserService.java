@@ -23,5 +23,8 @@ public interface UserService {
 
     void rent(UserBookDTO userBookDTO);
 
-//    void deleteBook(BookVO book);
+    void deleteBook(BookVO book);
+
+//    void updateBook(String userId, BookVO bookVO);
 }
+

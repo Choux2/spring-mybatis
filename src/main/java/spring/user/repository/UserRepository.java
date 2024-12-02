@@ -50,7 +50,7 @@ public class UserRepository {
     }
 
     public void updateBook(UserBookDTO bookDTO) {
-        sql.update("User.updateBool", bookDTO);
+        sql.update("User.updateBook", bookDTO);
     }
 
     public void delete(String userId) {
@@ -61,7 +61,7 @@ public class UserRepository {
         sql.insert("User.rent", userBookDTO);
     }
 
-//    public void deleteBook(UserBookDTO userBookDTO) {
-//        sql.delete("User.deleteBook", userBookDTO);
-//    }
+    public void deleteBook(UserBookDTO userBookDTO) {
+        sql.delete("User.deleteBook", userBookDTO);
+    }
 }
