@@ -5,12 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import spring.user.dto.BookInfoDTO;
 import spring.user.dto.UserBookDTO;
 import spring.user.dto.UserInfoDTO;
 import spring.user.vo.BookVO;
 import spring.user.vo.UserVO;
+import spring.user.vo.UserBookVO;
 import spring.user.service.UserService;
 
+import java.awt.print.Book;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -89,7 +93,13 @@ public class UserController {
     @PostMapping("/update/{userId}")
     public String update(@PathVariable("userId") String userId, @ModelAttribute UserVO userVO) {
         userVO.setUserId(userId);
+
+        if (userVO.getBookList() == null) {
+            userVO.setBookList(new ArrayList<>());
+        }
+
         userService.update(userVO);
+
 //        UserInfoDTO dto = userService.findById(userInfoDTO.getUserId());
 //        model.addAttribute("userInfo", dto);
         return "redirect:/detail/" + userId;
@@ -121,13 +131,18 @@ public class UserController {
         return "redirect:/list";
     }
 
-    @GetMapping("/deleteBook/{userId}/{bookNum}")
+    @GetMapping("/deleteBook/{userId}/{seq}")
     public String deleteBook(@PathVariable("userId") String userId,
-                             @PathVariable("bookNum") Integer bookNum) {
-        BookVO book = new BookVO();
-        book.setUserId(userId);
-        book.setBookNum(bookNum);
-        userService.deleteBook(book);
+                             @PathVariable("seq") Integer seq) {
+
+        UserBookVO userBook = new UserBookVO();
+        userBook.setUserId(userId);
+        userBook.setSeq(seq);
+
+        userService.deleteBook(userBook);
+
+        UserVO userVO = userService.findById(userId);
+
         return "redirect:/update/" + userId;
     }
 
@@ -136,4 +151,70 @@ public class UserController {
 //        userService.deleteBook(userId, 1);
 //        return "redirect:/detail/" + userId;
 //    }
+
+    // 책 등록 crud
+    @GetMapping("/addBookList")
+    public String addBookList() {
+        return "addBookList";
+    }
+
+    @PostMapping("/addBookList")
+    public String addBookList(@ModelAttribute BookVO book) {
+        userService.addBookList(book);
+        return "redirect:/bookList";
+    }
+
+    @GetMapping("/bookList")
+    public String findBookListAll(Model model) { //model : 어떤 데이터를 화면으로 가져갈 수 있도록 해주는 전달객체
+        List<BookInfoDTO> bookList = userService.findBookListAll();
+        model.addAttribute("bookList", bookList);
+//
+//        for (BookInfoDTO book : bookList) {
+//            System.out.println(book);
+//        }
+        return "bookList";
+    }
+
+    @GetMapping("/detailBookList/{bookNum}")
+    public String findByBookNum(@PathVariable("bookNum") int bookNum, Model model) {
+        BookVO book = userService.findByBookNum(bookNum);
+        model.addAttribute("bookInfo", book);
+
+        return "detailBookList";
+    }
+
+    @GetMapping("/updateBookList/{bookNum}")
+    public String updateBookList(@PathVariable("bookNum") int bookNum, Model model) {
+        BookVO bookVO = userService.findByBookNum(bookNum);
+        model.addAttribute("bookInfo", bookVO);
+        return "updateBookList";
+    }
+
+    @PostMapping("/updateBookList/{bookNum}")
+    public String updateBookList(BookVO book, Model model) {
+        userService.updateBookList(book);
+        BookVO bookVO = userService.findByBookNum(book.getBookNum());
+        model.addAttribute("bookInfo", bookVO);
+
+        return "redirect:/detailBookList/" + bookVO.getBookNum();
+    }
+
+    @GetMapping("/deleteBookList/{bookNum}")
+    public String deleteBookList(@PathVariable("bookNum") int bookNum) {
+        userService.deleteBookList(bookNum);
+        return "redirect:/bookList";
+    }
+
+    @GetMapping("/addBook")
+    @ResponseBody
+    public BookInfoDTO addBook(@RequestParam("bookNum") int bookNum) {
+        BookInfoDTO bookInfoDTO = userService.addBook(bookNum);
+
+        if (bookInfoDTO == null) {
+            return null;
+        }
+
+        return bookInfoDTO;
+    }
+
 }

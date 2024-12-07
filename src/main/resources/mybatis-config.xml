@@ -6,5 +6,6 @@
         <typeAlias type="spring.user.dto.UserInfoDTO" alias="userInfo"></typeAlias>
         <typeAlias type="spring.user.dto.UserDetailInfoDTO" alias="userDetailInfo"></typeAlias>
         <typeAlias type="spring.user.dto.UserBookDTO" alias="userBook"></typeAlias>
+        <typeAlias type="spring.user.dto.BookInfoDTO" alias="bookInfo"></typeAlias>
     </typeAliases>
 </configuration>

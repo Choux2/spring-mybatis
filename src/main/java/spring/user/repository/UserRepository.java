@@ -3,6 +3,7 @@ package spring.user.repository;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import spring.user.dto.BookInfoDTO;
 import spring.user.dto.UserBookDTO;
 import spring.user.dto.UserDetailInfoDTO;
 import spring.user.dto.UserInfoDTO;
@@ -45,8 +46,8 @@ public class UserRepository {
         sql.update("User.update",userInfoDTO);
     }
 
-    public void updateDetail(UserDetailInfoDTO userDetailInfoDTO) {
-        sql.update("User.updateDetail", userDetailInfoDTO);
+    public int updateDetail(UserDetailInfoDTO userDetailInfoDTO) {
+       return sql.update("User.updateDetail", userDetailInfoDTO);
     }
 
     public void updateBook(UserBookDTO bookDTO) {
@@ -63,5 +64,29 @@ public class UserRepository {
 
     public void deleteBook(UserBookDTO userBookDTO) {
         sql.delete("User.deleteBook", userBookDTO);
+    }
+
+    public void addBookList(BookInfoDTO bookInfoDTO) {
+        sql.insert("User.addBookList", bookInfoDTO);
+    }
+
+    public List<BookInfoDTO> findBookListAll() {
+        return sql.selectList("User.findBookListAll");
+    }
+
+    public BookInfoDTO findByBookNum(int bookNum) {
+        return sql.selectOne("User.findByBookNum", bookNum);
+    }
+
+    public void updateBookList(BookInfoDTO bookInfoDTO) {
+        sql.update("User.updateBookList", bookInfoDTO);
+    }
+
+    public void deleteBookList(int bookNum) {
+        sql.delete("User.deleteBookList", bookNum);
+    }
+
+    public BookInfoDTO addBook(int bookNum) {
+       return sql.selectOne("User.addBook", bookNum);
     }
 }

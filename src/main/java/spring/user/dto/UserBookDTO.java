@@ -8,7 +8,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserBookDTO {
-    String userId;
     int bookNum;
+    String userId;
+    String date;
+    int seq;
+
     String value;
+
 }

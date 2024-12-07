@@ -2,14 +2,17 @@ package spring.user.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import spring.user.dto.BookInfoDTO;
 import spring.user.dto.UserBookDTO;
 import spring.user.dto.UserDetailInfoDTO;
 import spring.user.dto.UserInfoDTO;
 import spring.user.vo.BookVO;
+import spring.user.vo.UserBookVO;
 import spring.user.vo.UserVO;
 import spring.user.repository.UserRepository;
 import spring.user.service.UserService;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,11 +102,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        List<BookVO> bookList = new ArrayList<>();
+        List<UserBookVO> bookList = new ArrayList<>();
         for (UserBookDTO book : books) {
-            BookVO bookVO = new BookVO();
+            UserBookVO bookVO = new UserBookVO();
             bookVO.setUserId(book.getUserId());
-            bookVO.setBookNum(book.getBookNum());
+            bookVO.setSeq(book.getSeq());
             bookVO.setValue(book.getValue());
             bookList.add(bookVO);
         }
@@ -143,14 +146,19 @@ public class UserServiceImpl implements UserService {
         userRepository.update(userInfoDTO);
 
         for (UserDetailInfoDTO detailInfoDTO : detailInfoDTOS) {
-            userRepository.updateDetail(detailInfoDTO);
+            int rowsAffected = userRepository.updateDetail(detailInfoDTO);
+
+            if (rowsAffected == 0) {
+                userRepository.joinDetail(detailInfoDTO);
+            }
         }
 
+        //책 정보 수정
         List<UserBookDTO> bookDTOS = new ArrayList<>();
-        for (BookVO bookVO : user.getBookList()) {
+        for (UserBookVO bookVO : user.getBookList()) {
             UserBookDTO bookDTO = new UserBookDTO();
             bookDTO.setUserId(user.getUserId());
-            bookDTO.setBookNum(bookVO.getBookNum());
+            bookDTO.setSeq(bookVO.getSeq());
             bookDTO.setValue(bookVO.getValue());
             bookDTOS.add(bookDTO);
             userRepository.updateBook(bookDTO);
@@ -172,11 +180,62 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteBook(BookVO book) {
+    public void deleteBook(UserBookVO userBook) {
         UserBookDTO userBookDTO = new UserBookDTO();
-        userBookDTO.setUserId(book.getUserId());
-        userBookDTO.setBookNum(book.getBookNum());
+        userBookDTO.setUserId(userBook.getUserId());
+        userBookDTO.setSeq(userBook.getSeq());
         userRepository.deleteBook(userBookDTO);
+    }
+
+    @Override
+    public void addBookList(BookVO book) {
+        BookInfoDTO bookInfoDTO = new BookInfoDTO();
+        bookInfoDTO.setBookNum(book.getBookNum());
+        bookInfoDTO.setBookName(book.getBookName());
+        bookInfoDTO.setAuthor(book.getAuthor());
+        bookInfoDTO.setPublisher(book.getPublisher());
+
+        userRepository.addBookList(bookInfoDTO);
+    }
+
+    @Override
+    public List<BookInfoDTO> findBookListAll() {
+        System.out.println("userRepository = " + userRepository);
+        return userRepository.findBookListAll();
+    }
+
+    @Override
+    public BookVO findByBookNum(int bookNum) {
+        BookInfoDTO bookInfoDTO = userRepository.findByBookNum(bookNum);
+        BookVO book = new BookVO();
+        book.setBookNum(bookInfoDTO.getBookNum());
+        book.setBookName(bookInfoDTO.getBookName());
+        book.setAuthor(bookInfoDTO.getAuthor());
+        book.setPublisher(bookInfoDTO.getPublisher());
+
+        return book;
+    }
+
+    @Override
+    public void updateBookList(BookVO bookVO) {
+
+        BookInfoDTO bookInfoDTO = new BookInfoDTO();
+        bookInfoDTO.setBookNum(bookVO.getBookNum());
+        bookInfoDTO.setBookName(bookVO.getBookName());
+        bookInfoDTO.setAuthor(bookVO.getAuthor());
+        bookInfoDTO.setPublisher(bookVO.getPublisher());
+
+        userRepository.updateBookList(bookInfoDTO);
+    }
+
+    @Override
+    public void deleteBookList(int bookNum) {
+        userRepository.deleteBookList(bookNum);
+    }
+
+    @Override
+    public BookInfoDTO addBook(int bookNum) {
+        return userRepository.addBook(bookNum);
     }
 
 //    @Override

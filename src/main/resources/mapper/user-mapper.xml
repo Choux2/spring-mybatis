@@ -93,20 +93,81 @@
         WHERE userId=#{userId}
     </delete>
     <insert id="rent" parameterType="userBook">
-        <selectKey keyProperty="bookNum" resultType="int" order="BEFORE">
-            SELECT MAX(bookNum) + 1
+        <selectKey keyProperty="seq" resultType="int" order="BEFORE">
+            SELECT COALESCE(MAX(seq), 0) + 1
             FROM UserBook
             WHERE userId = #{userId}
         </selectKey>
         INSERT INTO UserBook (userId
                             , bookNum
-                            , value)
+                            , value
+                            , date
+                            , seq)
              VALUES (#{userId}
                    , #{bookNum}
-                   , #{value})
+                   , #{value}
+                   , now()
+                   , #{seq})
     </insert>
     <delete id="deleteBook">
         DELETE FROM UserBook
         WHERE userId = #{userId} AND bookNum = #{bookNum}
     </delete>
+
+<!--    <select id="searchBook" parameterType="bookInfo" resultType="bookInfo">-->
+<!--        SELECT bookName-->
+<!--        FROM BookInfo-->
+<!--        WHERE true-->
+<!--        <if test=""-->
+
+<!--    </select>-->
+
+    <insert id="addBookList" parameterType="bookInfo">
+        INSERT INTO BookInfo (bookName
+                            , author
+                            , publisher)
+        VALUES (#{bookName}
+              , #{author}
+              , #{publisher})
+    </insert>
+
+    <select id="findBookListAll" resultType="bookInfo">
+        SELECT bookNum
+             , bookName
+             , author
+             , publisher
+        FROM BookInfo
+        ORDER BY bookNum
+    </select>
+
+    <select id="findByBookNum" parameterType="int" resultType="bookInfo">
+        SELECT bookNum
+             , bookName
+             , author
+             , publisher
+        FROM BookInfo
+        WHERE bookNum=#{bookNum}
+    </select>
+
+    <update id="updateBookList">
+        UPDATE BookInfo
+           SET bookName=#{bookName}
+             , author=#{author}
+             , publisher=#{publisher}
+         WHERE bookNum=#{bookNum}
+    </update>
+
+    <delete id="deleteBookList" parameterType="int">
+        DELETE FROM BookInfo
+        WHERE bookNum = #{bookNum}
+    </delete>
+
+    <select id="addBook" parameterType="int" resultType="bookInfo">
+        SELECT bookNum
+             , bookName
+             , author
+             , publisher
+        FROM BookInfo
+        WHERE bookNum=#{bookNum}
+    </select>
 </mapper>

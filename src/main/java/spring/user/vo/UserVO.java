@@ -16,5 +16,5 @@ public class UserVO {
     String userPhone;
     String userAddr;
     String userEmail;
-    List<BookVO> bookList;
+    List<UserBookVO> bookList;
 }
