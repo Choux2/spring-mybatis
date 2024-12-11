@@ -13,6 +13,7 @@ import spring.user.repository.UserRepository;
 import spring.user.service.UserService;
 
 import java.awt.print.Book;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -187,56 +188,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteBook(userBookDTO);
     }
 
-    @Override
-    public void addBookList(BookVO book) {
-        BookInfoDTO bookInfoDTO = new BookInfoDTO();
-        bookInfoDTO.setBookNum(book.getBookNum());
-        bookInfoDTO.setBookName(book.getBookName());
-        bookInfoDTO.setAuthor(book.getAuthor());
-        bookInfoDTO.setPublisher(book.getPublisher());
 
-        userRepository.addBookList(bookInfoDTO);
-    }
-
-    @Override
-    public List<BookInfoDTO> findBookListAll() {
-        System.out.println("userRepository = " + userRepository);
-        return userRepository.findBookListAll();
-    }
-
-    @Override
-    public BookVO findByBookNum(int bookNum) {
-        BookInfoDTO bookInfoDTO = userRepository.findByBookNum(bookNum);
-        BookVO book = new BookVO();
-        book.setBookNum(bookInfoDTO.getBookNum());
-        book.setBookName(bookInfoDTO.getBookName());
-        book.setAuthor(bookInfoDTO.getAuthor());
-        book.setPublisher(bookInfoDTO.getPublisher());
-
-        return book;
-    }
-
-    @Override
-    public void updateBookList(BookVO bookVO) {
-
-        BookInfoDTO bookInfoDTO = new BookInfoDTO();
-        bookInfoDTO.setBookNum(bookVO.getBookNum());
-        bookInfoDTO.setBookName(bookVO.getBookName());
-        bookInfoDTO.setAuthor(bookVO.getAuthor());
-        bookInfoDTO.setPublisher(bookVO.getPublisher());
-
-        userRepository.updateBookList(bookInfoDTO);
-    }
-
-    @Override
-    public void deleteBookList(int bookNum) {
-        userRepository.deleteBookList(bookNum);
-    }
-
-    @Override
-    public BookInfoDTO addBook(int bookNum) {
-        return userRepository.addBook(bookNum);
-    }
 
 //    @Override
 //    public void updateBook(String userId, BookVO book) {

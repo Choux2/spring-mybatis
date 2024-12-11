@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Book">
+    <insert id="addBookList" parameterType="bookInfo">
+        INSERT INTO BookInfo (bookName
+                             , author
+                             , publisher)
+        VALUES (#{bookName}
+               , #{author}
+               , #{publisher})
+    </insert>
+
+    <select id="findBookListAll" resultType="bookInfo">
+        SELECT bookNum
+             , bookName
+             , author
+             , publisher
+        FROM BookInfo
+        ORDER BY bookNum
+    </select>
+
+    <select id="findByBookNum" parameterType="int" resultType="bookInfo">
+        SELECT bookNum
+             , bookName
+             , author
+             , publisher
+        FROM BookInfo
+        WHERE bookNum=#{bookNum}
+    </select>
+
+    <update id="updateBookList">
+        UPDATE BookInfo
+        SET bookName=#{bookName}
+          , author=#{author}
+          , publisher=#{publisher}
+        WHERE bookNum=#{bookNum}
+    </update>
+
+    <delete id="deleteBookList" parameterType="int">
+        DELETE FROM BookInfo
+        WHERE bookNum = #{bookNum}
+    </delete>
+
+    <select id="addBook" parameterType="int" resultType="bookInfo">
+        SELECT bookNum
+             , bookName
+             , author
+             , publisher
+        FROM BookInfo
+        WHERE bookNum=#{bookNum}
+    </select>
+</mapper>

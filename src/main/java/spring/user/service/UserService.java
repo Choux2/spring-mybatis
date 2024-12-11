@@ -7,6 +7,7 @@ import spring.user.vo.BookVO;
 import spring.user.vo.UserBookVO;
 import spring.user.vo.UserVO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserService {
@@ -26,18 +27,6 @@ public interface UserService {
 
     void deleteBook(UserBookVO userBook);
 
-    void addBookList(BookVO book);
 
-    List<BookInfoDTO> findBookListAll();
-
-    BookVO findByBookNum(int bookNum);
-
-    void updateBookList(BookVO bookVO);
-
-    void deleteBookList(int bookNum);
-
-    BookInfoDTO addBook(int bookNum);
-
-//    void updateBook(String userId, BookVO bookVO);
 }
 

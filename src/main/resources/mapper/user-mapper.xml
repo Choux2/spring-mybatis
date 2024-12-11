@@ -114,6 +114,23 @@
         WHERE userId = #{userId} AND bookNum = #{bookNum}
     </delete>
 
+    <select id="findUserBookListAll" resultType="userBook">
+        SELECT userId
+             , value
+             , date
+        FROM UserBook
+        ORDER BY date
+    </select>
+
+    <select id="findDate" resultType="userBook">
+        SELECT userId
+             , value
+             , date
+        FROM UserBook
+        WHERE date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY date
+    </select>
+
 <!--    <select id="searchBook" parameterType="bookInfo" resultType="bookInfo">-->
 <!--        SELECT bookName-->
 <!--        FROM BookInfo-->
@@ -121,53 +138,4 @@
 <!--        <if test=""-->
 
 <!--    </select>-->
-
-    <insert id="addBookList" parameterType="bookInfo">
-        INSERT INTO BookInfo (bookName
-                            , author
-                            , publisher)
-        VALUES (#{bookName}
-              , #{author}
-              , #{publisher})
-    </insert>
-
-    <select id="findBookListAll" resultType="bookInfo">
-        SELECT bookNum
-             , bookName
-             , author
-             , publisher
-        FROM BookInfo
-        ORDER BY bookNum
-    </select>
-
-    <select id="findByBookNum" parameterType="int" resultType="bookInfo">
-        SELECT bookNum
-             , bookName
-             , author
-             , publisher
-        FROM BookInfo
-        WHERE bookNum=#{bookNum}
-    </select>
-
-    <update id="updateBookList">
-        UPDATE BookInfo
-           SET bookName=#{bookName}
-             , author=#{author}
-             , publisher=#{publisher}
-         WHERE bookNum=#{bookNum}
-    </update>
-
-    <delete id="deleteBookList" parameterType="int">
-        DELETE FROM BookInfo
-        WHERE bookNum = #{bookNum}
-    </delete>
-
-    <select id="addBook" parameterType="int" resultType="bookInfo">
-        SELECT bookNum
-             , bookName
-             , author
-             , publisher
-        FROM BookInfo
-        WHERE bookNum=#{bookNum}
-    </select>
 </mapper>

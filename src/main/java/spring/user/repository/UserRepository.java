@@ -8,12 +8,16 @@ import spring.user.dto.UserBookDTO;
 import spring.user.dto.UserDetailInfoDTO;
 import spring.user.dto.UserInfoDTO;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
 public class UserRepository {
     private final SqlSessionTemplate sql;
+
     public void join(UserInfoDTO userInfoDTO) {
         sql.insert("User.join", userInfoDTO);
     }
@@ -66,27 +70,5 @@ public class UserRepository {
         sql.delete("User.deleteBook", userBookDTO);
     }
 
-    public void addBookList(BookInfoDTO bookInfoDTO) {
-        sql.insert("User.addBookList", bookInfoDTO);
-    }
 
-    public List<BookInfoDTO> findBookListAll() {
-        return sql.selectList("User.findBookListAll");
-    }
-
-    public BookInfoDTO findByBookNum(int bookNum) {
-        return sql.selectOne("User.findByBookNum", bookNum);
-    }
-
-    public void updateBookList(BookInfoDTO bookInfoDTO) {
-        sql.update("User.updateBookList", bookInfoDTO);
-    }
-
-    public void deleteBookList(int bookNum) {
-        sql.delete("User.deleteBookList", bookNum);
-    }
-
-    public BookInfoDTO addBook(int bookNum) {
-       return sql.selectOne("User.addBook", bookNum);
-    }
 }
