@@ -188,7 +188,16 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteBook(userBookDTO);
     }
 
+    @Override
+    public List<UserBookDTO> findUserBookListAll() {
+        return userRepository.findUserBookListAll();
 
+    }
+
+    @Override
+    public List<UserBookDTO> findDate(LocalDate startDate, LocalDate endDate) {
+        return userRepository.findDate(startDate, endDate);
+    }
 
 //    @Override
 //    public void updateBook(String userId, BookVO book) {

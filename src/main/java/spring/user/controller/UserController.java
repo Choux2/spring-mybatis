@@ -154,7 +154,27 @@ public class UserController {
 //        return "redirect:/detail/" + userId;
 //    }
 
+    @GetMapping("/userBookList")
+    public String findUserBookListAll(
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+            Model model) {
 
+        if (startDate == null) {
+            startDate = LocalDate.now();
+        }
+        if (endDate == null) {
+            endDate = LocalDate.now();
+        }
+
+        List<UserBookDTO> userBookList = userService.findDate(startDate, endDate);
+        model.addAttribute("userBookList", userBookList);
+
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
+        return "userBookList";
+    }
 
 
 }

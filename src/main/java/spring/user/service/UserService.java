@@ -27,6 +27,8 @@ public interface UserService {
 
     void deleteBook(UserBookVO userBook);
 
+    List<UserBookDTO> findUserBookListAll();
 
+    List<UserBookDTO> findDate(LocalDate startDate, LocalDate endDate);
 }
 

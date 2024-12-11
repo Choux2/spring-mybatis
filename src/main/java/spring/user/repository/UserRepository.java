@@ -70,5 +70,14 @@ public class UserRepository {
         sql.delete("User.deleteBook", userBookDTO);
     }
 
+    public List<UserBookDTO> findUserBookListAll() {
+        return sql.selectList("User.findUserBookListAll");
+    }
 
+    public List<UserBookDTO> findDate(LocalDate startDate, LocalDate endDate) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        return sql.selectList("User.findDate", params);
+    }
 }
